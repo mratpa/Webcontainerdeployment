@@ -11,6 +11,7 @@
 	<groupId>xyz.webcontainer</groupId>
 	<artifactId>Webcontainerdeployment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>Webcontainerdeployment</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -30,10 +31,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
@@ -69,5 +76,4 @@
             <url>file://${project.build.outputDirectory}/releases/site/${project.version}/</url>
           </site>
         </distributionManagement>
-
 </project>
