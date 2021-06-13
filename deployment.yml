@@ -1,0 +1,26 @@
+---
+#Simple Ansible Playbook to build and run a Docker containers
+ 
+- name: Playbook to build and run Docker
+  hosts: all
+  become: true
+  gather_facts: false
+ 
+  tasks:
+    - name: Build a Docker image using .war file
+      docker_image:
+        name: Webcontainerdeployment
+        build:
+          path: /opt/docker
+          pull: false
+        source: build
+ 
+    - name: Run Docker container using simple-docker-image
+      docker_container:
+        name: Webcontainerdeployment
+        image: Webcontainerdeployment:latest
+        state: started
+        recreate: yes
+        detach: true
+        ports:
+          - "8888:8080"
