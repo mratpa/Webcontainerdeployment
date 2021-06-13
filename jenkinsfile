@@ -20,9 +20,6 @@ pipeline {
               success{
                 echo "Git SCM pull successful!"
               }
-              failure {
-			    emailext body: 'Stage: ${env.JOB_NAME} Compilation failed!', subject: 'compilation failed!', to: 'macharya@ainsight.com'
-                }
             }
 
 		}
@@ -36,9 +33,6 @@ pipeline {
                 // failed, record the test results and archive the jar file.
                 success {
                 junit '**/target/surefire-reports/TEST-*.xml'
-                }
-              failure {
-			    emailext body: 'Stage: ${env.JOB_NAME} unit test failed!', subject: 'Unit test failed!', to: 'macharya@ainsight.com'
                 }
               }
 		}
@@ -55,9 +49,6 @@ pipeline {
                 success {
                     archiveArtifacts 'target/*.war'
                 }
-              failure {
-			    emailext body: 'Stage: ${env.JOB_NAME} build failed!', subject: 'Build failed!', to: 'macharya@ainsight.com'
-                }
               }
 		}
 
@@ -69,9 +60,6 @@ pipeline {
               success{
                 echo "Git SCM pull successful!"
               }
-              failure {
-			    emailext body: 'Stage: ${env.JOB_NAME} deployment failed!', subject: 'deployment failed!', to: 'macharya@ainsight.com'
-                }
               unstable{
 			    echo "Unstable deployment... deployment failed"
               }
