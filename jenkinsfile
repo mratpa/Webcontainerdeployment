@@ -10,12 +10,12 @@ pipeline {
 
 
 		stage('Compilation') {
-            steps {
+          steps {
 
                // Get the code from a GitHub repository
                 git 'https://github.com/mratpa/Webcontainerdeployment.git'
-				bat "mvn clean "
-			}
+				        bat "mvn clean "
+			    }
           post{
               success{
                 echo "Git SCM pull successful!"
@@ -25,16 +25,16 @@ pipeline {
 		}
         
 		stage('Unit Test') {
-           steps {
+          steps {
                 bat "mvn test"
-			}
-            post {
+			    }
+          post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
                 success {
                 junit '**/target/surefire-reports/TEST-*.xml'
                 }
-              }
+          }
 		}
 
 		stage('Build') {
@@ -53,9 +53,9 @@ pipeline {
 		}
 
 		stage('Deployment') {
-            steps {
+        steps {
         	bat "mvn -Dmaven.test.failure.ignore=true tomcat7:deploy"
-			}
+		  	}
           post{
               success{
                 echo "Git SCM pull successful!"
