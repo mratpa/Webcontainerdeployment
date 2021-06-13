@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+
+    tools {
+        // java and Maven.
+        maven "my_mvn"
+	jdk 'my_jdk'
+    }
+	stages {
+
+
+		stage('Compilation') {
+            steps {
+
+               // Get the code from a GitHub repository
+                git 'https://github.com/mratpa/bookzy.git'
+				bat "mvn clean "
+			}
+          post{
+              success{
+                echo "Git SCM pull successful!"
+              }
+              failure {
+			    emailext body: 'Stage: ${env.JOB_NAME} Compilation failed!', subject: 'compilation failed!', to: 'macharya@ainsight.com'
+                }
+            }
+
+		}
+        
+		stage('Unit Test') {
+           steps {
+                bat "mvn test"
+			}
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                junit '**/target/surefire-reports/TEST-*.xml'
+                }
+              failure {
+			    emailext body: 'Stage: ${env.JOB_NAME} unit test failed!', subject: 'Unit test failed!', to: 'macharya@ainsight.com'
+                }
+              }
+		}
+
+		stage('Build') {
+            steps {
+
+                // Get the code from a GitHub repository
+				bat "mvn package "
+        	}
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    archiveArtifacts 'target/*.war'
+                }
+              failure {
+			    emailext body: 'Stage: ${env.JOB_NAME} build failed!', subject: 'Build failed!', to: 'macharya@ainsight.com'
+                }
+              }
+		}
+
+		stage('Deployment') {
+            steps {
+        	bat "mvn -Dmaven.test.failure.ignore=true tomcat7:deploy"
+			}
+          post{
+              success{
+                echo "Git SCM pull successful!"
+              }
+              failure {
+			    emailext body: 'Stage: ${env.JOB_NAME} deployment failed!', subject: 'deployment failed!', to: 'macharya@ainsight.com'
+                }
+              unstable{
+			    echo "Unstable deployment... deployment failed"
+              }
+            }
+		}
+	}
+}
+
