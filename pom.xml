@@ -48,7 +48,7 @@
 			  <configuration>
 			    <url>http://localhost:8080/manager/text</url>
 			    <server>tomcatserver</server>
-			    <path>/bookzy</path>
+			    <path>/Webcontainerdeployment</path>
 			  </configuration>
 			</plugin>
 		</plugins>
