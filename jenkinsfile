@@ -13,7 +13,7 @@ pipeline {
             steps {
 
                // Get the code from a GitHub repository
-                git 'https://github.com/mratpa/bookzy.git'
+                git 'git@github.com:mratpa/Webcontainerdeployment.git'
 				bat "mvn clean "
 			}
           post{
