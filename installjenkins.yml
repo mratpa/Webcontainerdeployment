@@ -13,7 +13,7 @@
     apt:
       name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'openjdk-11-jdk']
       state: present
-      update_cache: no
+      update_cache: yes
 
 #  - name: Add Docker APT repository
 #    become: true
