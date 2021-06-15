@@ -41,7 +41,7 @@ pipeline {
             steps {
 
                 // Get the code from a GitHub repository
-				bat "mvn package "
+				sh "mvn package "
         	}
             post {
                 // If Maven was able to run the tests, even if some of the test
