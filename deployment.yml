@@ -5,6 +5,7 @@
   hosts: localhost
   become: true
   gather_facts: false
+  ansible_python_interpreter: /bin/python3
  
   tasks:
     - name: Build a Docker image using .war file

@@ -16,11 +16,23 @@
   - name: Install basic list of packages
     become: true
     apt:
-      name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common']
+      name: ['apt-transport-https','ca-certificates','curl','gnupg', lsb-release]
       state: present
       update_cache: yes
 
+  - name: get the key
+    become: true 
+    shell:
+       cmd: curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  - name: get the key file
+    become: true
+    shell: |
+      echo \
+       "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
+    args:
+      executable: /bin/bash
   - name: Install Docker packages
     become: true
     apt:
@@ -29,7 +41,6 @@
 
   - name: Install Docker-compose
     become: yes
-    #  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     get_url:
       url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
       dest: /usr/local/bin/docker-compose
