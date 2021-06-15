@@ -9,7 +9,7 @@
   tasks:
     - name: Build a Docker image using .war file
       docker_image:
-        name: Webcontainerdeployment
+        name: tomcat
         build:
           path: /opt/docker
           pull: false
