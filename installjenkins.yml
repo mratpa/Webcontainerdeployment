@@ -10,7 +10,7 @@
   - name: Install basic list of packages
     become: true
     apt:
-      name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'openjdk-8-jdk']
+      name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'openjdk-11-jdk']
       state: present
       update_cache: yes
 
