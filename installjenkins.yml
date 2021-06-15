@@ -7,7 +7,7 @@
     ignore_errors: yes
     become: true
     apt:
-      update_cache: no
+      update_cache: yes
   - name: Install basic list of packages
     become: true
     apt:
