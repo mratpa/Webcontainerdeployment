@@ -4,6 +4,7 @@
   tasks:
 
   - name: Update APT package manager repositories cache
+    ignore_errors: yes
     become: true
     apt:
       update_cache: yes
