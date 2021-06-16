@@ -1,4 +1,9 @@
 pipeline {
+      environment { 
+        registry = "mratpanew/webcontainer" 
+        registryCredential = 'znKUTcAJG9P=' 
+        dockerImage = '' 
+    }
     agent any
 
     tools {
@@ -52,19 +57,31 @@ pipeline {
               }
 		}
 
-		stage('Deployment') {
-        steps {
-        	sh "mvn -Dmaven.test.failure.ignore=true tomcat7:deploy"
-		  	}
-          post{
-              success{
-                echo "Git SCM pull successful!"
-              }
-              unstable{
-			    echo "Unstable deployment... deployment failed"
-              }
+    stage('Building our image') { 
+        steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
+        }
+          stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
             }
-		}
+        } 
+
+        stage('Cleaning up') { 
+            steps { 
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+            }
+        } 
+    }
+
 	}
+  
 }
 
