@@ -9,7 +9,7 @@
   tasks:
     - name: Build a Docker image using .war file
       docker_image:
-        name: tomcat
+        name: tomcat:9.0-slim
         build:
           path: /opt/docker
           pull: false
