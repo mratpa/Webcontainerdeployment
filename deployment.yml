@@ -8,7 +8,6 @@
  
   tasks:
     - name: Build a Docker image using .war file
-      become: true
       docker_image:
         name: tomcat:9.0-slim
         build:
@@ -17,7 +16,6 @@
         source: build
  
     - name: Run Docker container using simple-docker-image
-      become: true
       docker_container:
         name: Webcontainerdeployment
         image: tomcat:9.0-slim
