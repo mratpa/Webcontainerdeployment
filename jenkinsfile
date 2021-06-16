@@ -14,48 +14,6 @@ pipeline {
 	stages {
 
 
-		stage('Compilation') {
-          steps {
-
-               // Get the code from a GitHub repository
-                git 'https://github.com/mratpa/Webcontainerdeployment.git'
-				        sh "mvn clean "
-			    }
-          post{
-              success{
-                echo "Git SCM pull successful!"
-              }
-            }
-
-		}
-        
-		stage('Unit Test') {
-          steps {
-                sh "mvn test"
-			    }
-          post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                junit '**/target/surefire-reports/TEST-*.xml'
-                }
-          }
-		}
-
-		stage('Build') {
-            steps {
-
-                // Get the code from a GitHub repository
-				sh "mvn package "
-        	}
-            post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    archiveArtifacts 'target/*.war'
-                }
-              }
-		}
 
     stage('Building our image') { 
         steps { 
