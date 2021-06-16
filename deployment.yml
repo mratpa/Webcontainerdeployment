@@ -18,7 +18,7 @@
     - name: Run Docker container using simple-docker-image
       docker_container:
         name: Webcontainerdeployment
-        image: Webcontainerdeployment:latest
+        image: tomcat:9.0-slim
         state: started
         recreate: yes
         detach: true
