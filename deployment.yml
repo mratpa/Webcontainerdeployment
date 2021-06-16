@@ -13,7 +13,7 @@
         build:
           path: /opt/docker
           pull: false
-        source: build
+        source: api_version
  
     - name: Run Docker container using simple-docker-image
       docker_container:
